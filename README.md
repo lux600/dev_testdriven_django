@@ -44,6 +44,14 @@
 
 <br/>
 - git log --oneline  (한줄씩 보기)
+- git rm -r --cached superlists/__pycache__
+- echo "__pycache__" >> .gitignore
+
+<br/>
+- git status
+- git add .
+- git diff --staged # 커밋 수정내역 확인 
+- git commit -m "커밋내용"
  
 ---
 - http://www.nltk.org/install.html
