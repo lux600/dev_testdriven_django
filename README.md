@@ -1,21 +1,22 @@
 ## 참조책 
-![](./book.jpg)
+![](./assets/book.jpg)
 
 --- 
 
-![](./book_kor.jpg)
+![](./assets/book.jpg)
 
 ---
 
 ## 마크다운 문법 
 - https://namu.wiki/w/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4
+* ~~test~~
 
 ## 파이썬 설치 
 - [ 점프 투 파이썬 ](https://wikidocs.net/8)
 - [ pip 설치 ] (http://blog.colab.kr/11)
 - [ virtualenv 가상환경 구축 ](http://pythoninreal.blogspot.kr/2013/12/virtualenv.html)
 
-## install
+## 파이썬 install
 - virtualenv -p python3.4 .
 ---
 <br/>
@@ -31,14 +32,21 @@
 - /dev_tstdriven_django/
     - django-admin.py startproject superlists 하여 메인프로젝트 생성
     - superlists를 source 로 프로젝트 이름 변경 
-        - 
-    
+---     
 
+### git (page8)
+- echo "# dev_testdriven_django" >> README.md
+- git init
+- git add README.md
+- git commit -m "first commit"
+- git remote add origin git@github.com:lux600/dev_testdriven_django.git
+- git push -u origin master
+ 
 ---
 - http://www.nltk.org/install.html
     - pip install -U nltk
     - pip install -U numpy 
-* ~~test~~
+
 
 # 가상환경 
 - source bin/activate
