@@ -9,7 +9,7 @@ browser = webdriver.Chrome(driverLocation)
 browser.get('http://localhost:8000')
 
 # 웹 페이지 타이틀과 헤더거 'To-Do'를 표시하고 있다
-assert 'Django' in browser.title
+assert 'To-Do' in browser.title
 
 # 그녀는 바로 작업을 추가하기로 한다
 

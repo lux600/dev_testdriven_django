@@ -41,6 +41,9 @@
 - git commit -m "first commit"
 - git remote add origin git@github.com:lux600/dev_testdriven_django.git
 - git push -u origin master
+
+<br/>
+- git log --oneline  (한줄씩 보기)
  
 ---
 - http://www.nltk.org/install.html

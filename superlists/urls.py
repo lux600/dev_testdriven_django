@@ -14,8 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
+from lists.views import home_page
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+    url(r'^$', home_page )  # 처음에는 아래와 같은 경우 에러나기 때문
+    # url(r'^lists/', include('lists.urls', namespace='lists'))
+    # url(r'^blog/', include('blog.urls')),
 ]
