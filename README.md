@@ -17,6 +17,7 @@
 - [ virtualenv 가상환경 구축 ](http://pythoninreal.blogspot.kr/2013/12/virtualenv.html)
 
 ## 파이썬 install
+- [파이썬 가상환경 설치](https://www.holaxprogramming.com/2017/07/15/python-virtual-environments/)
 - virtualenv -p python3.4 .
 ---
 <br/>
@@ -35,6 +36,7 @@
 ---     
 
 ### git (page8)
+ - [ Git 간편 안내 ](https://rogerdudler.github.io/git-guide/index.ko.html)
 - echo "# dev_testdriven_django" >> README.md
 - git init
 - git add README.md

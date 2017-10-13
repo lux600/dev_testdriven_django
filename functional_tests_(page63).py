@@ -39,11 +39,14 @@ class NewVisitorTest(unittest.TestCase):
         # time.sleep(10)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: 공작깃털 사기', [row.text for row in rows])
+        self.assertTrue(
+            any(row.text == '1: 공작깃털 사기' for row in rows),
+            "신규 작업이 테이블에 표시되지 않는다"
+        )
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트 상자가 존재한다
         # 다시 "공작깃털을 이용해서 그물 만들기"라고 입력한다 (에디스는 매우 체계적인 사람이다)
-        # self.fail('Finish the test!')
+        self.fail('Finish the test!')
 
         # 페이지는 다시 갱신되고, 두 개 아이템이 목록에 보인다
         # 에디스는 사이트가 입력한 목록을 저장하고 있는지 궁금하다
@@ -57,5 +60,3 @@ class NewVisitorTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(warnings='ignore')
-
-    # < tr > < td > 1: {{new_item_text}} < / td > < / tr >

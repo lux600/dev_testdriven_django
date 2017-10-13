@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+
+    <title> </title>
+    <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+    <script src='./index.js'></script>
+    <script>TextToSpeech.talk("Hello Beautiful World!");</script>
+</head>
+<body>
+
+<input onclick='responsiveVoice.speak("Redford Station was supposed to");' type='button' value='🔊 Play' />
+<input onclick='responsiveVoice.speak("be only a five minute stop");' type='button' value='🔊 Play' />
+<input onclick='responsiveVoice.speak("But weve been sitting");' type='button' value='🔊 Play' />
+<input onclick='responsiveVoice.speak("at station");' type='button' value='🔊 Play' />
+<input onclick='responsiveVoice.speak("for nearly twenty minutes stop");' type='button' value='🔊 Play' />
+<input onclick='responsiveVoice.speak("But weve been sitting at station for nearly twenty minutes stop");'
+type='button' value='🔊 Play' />
+<br><br>
+<div>
+    <input type="text" id="speak_input" size="100"/>
+    <input type="button" id="speak_type_btn" value="click">
+</div>
+
+<br/>
+
+<hr/>
+<div id="speak_div">
+
+</div>
+<select id="voiceSelect"></select>
+
+    <!--ajax https://www.quora.com/How-do-I-convert-JSON-file-to-Javascript-Array-->
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"> </script>-->
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+    <script>
+        // https://developer.mozilla.org/ko/docs/Web/API/SpeechSynthesisUtterance
+        function populateVoiceList() {
+          if(typeof speechSynthesis === 'undefined') {
+            return;
+          }
+
+          voices = speechSynthesis.getVoices();
+
+          for(i = 0; i < voices.length ; i++) {
+            var option = document.createElement('option');
+            option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+
+            if(voices[i].default) {
+              option.textContent += ' -- DEFAULT';
+            }
+
+            option.setAttribute('data-lang', voices[i].lang);
+            option.setAttribute('data-name', voices[i].name);
+            document.getElementById("voiceSelect").appendChild(option);
+          }
+        }
+
+        populateVoiceList();
+
+        if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+          speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+
+
+        function blankOutArr(arr,ch){
+            var f_arr_tmp = arr.trim().split(ch) ;
+            var f_arr = []
+            for(var i=0 ; i < f_arr_tmp.length ; i++){
+                if(f_arr_tmp[i] != "") {
+                    f_arr[i] = f_arr_tmp[i] ;
+                }
+            }
+            return f_arr ;
+        }
+
+        function questioMarkSplitArr(arr){
+            var text_period_arr= [] ;
+            var cnt=0 ;
+            //물음표 분리
+            for(i=0 ; i < arr.length ;i++){
+                if(arr[i].indexOf("?") !=-1){
+                    var text_period_arr_tmp = blankOutArr(arr[i],"?");
+                    for(var m=0; m < text_period_arr_tmp.length ; m++){
+                        var str_tmp = text_period_arr_tmp[m].trim() ;
+                        if(m+1 == text_period_arr_tmp.length ) { str_tmp +="?" ;}
+                        text_period_arr[cnt] = str_tmp;
+                        cnt += 1 ;
+                    }
+
+                } else{
+                    text_period_arr[cnt] = arr[i].trim() ;
+                    cnt += 1 ;
+                }
+            }
+            return text_period_arr ;
+        }
+
+
+
+        //객체를 배열로 변환하기
+        function makeJsonIntoArray(text_json){
+
+            var eng_arr = [] ;
+            for(var i=0 ; i < text_json.length ; i++){
+                var dep1 = text_json[""+i][""+i] ;
+                //console.log(text_json[i+""]) ;
+                //var len1= Object.keys(text_json[""+i][""+i]).length ;
+                var len1 = Object.keys(dep1).length ;
+                //console.log(dep1)
+                //console.log(len1)
+
+                var arr2 = [] ;
+                for(var j=0 ; j < len1 ; j++){
+                    var dep2 = dep1[""+j] ;
+                    var len2 = Object.keys(dep2).length ;
+
+    //                console.log(dep2)
+    //                console.log(len2)
+
+                    var arr3=[] ;
+                    for(var k=0 ; k < len2 ; k++){
+                        var dep3 = dep2[""+k] ;
+                        //dep3 = dep3.replace("#",".").replace("@","'")
+                        dep3 = dep3.replace("#",".").replace("@","'")
+                        arr3.push(dep3)
+                        //console.log(dep3)
+                        //console.log(i+"|"+j+"|"+k)
+
+                    }
+
+                    arr2.push(arr3)
+
+                    //console.log("------------------")
+
+                }
+                eng_arr.push(arr2)
+                //console.log("==  ====  ====  ====  =====  ===")
+
+            }
+            //console.log(eng_arr)
+            return eng_arr ;
+
+        }
+
+
+        // html 클릭할 버튼 만들기
+        function makeHTML(text_arr){
+
+            var btn_append="";
+
+            for(i=0 ; i < text_arr.length ; i++){
+                for(j=0 ; j < text_arr[i].length ; j++){
+                    for(k=0 ; k < text_arr[i][j].length ; k++ ){
+                        //console.log(text_arr[i][j][k]);
+                        if(k !=0) {
+                            var tmp_mid ="mid"+"|"+ i+"|"+j+"|"+k ;
+
+                            btn_append
+                                +="<input type=\'button\' class=\'speechBtn\' for='"+tmp_mid+"\' value=\'+\' \/>" ;
+
+                        }
+
+                        var tmp="word"+"|"+ i+"|"+j+"|"+k ;
+                        btn_append
+                            +="<input type=\'button\' class=\'speechBtn\' for='"+tmp+"\' value=\'click\' \/>" ;
+                    }
+                    if(text_arr[i][j].length > 1) {
+                        btn_append += "&nbsp;&nbsp;" ;
+                        var tmp="chunk"+"|"+ i+"|"+j+"|"+k ;
+                        btn_append
+                            +="<input type=\'button\' class=\'speechBtn\' for='"+tmp+"\' value=\'sentence\' \/>" ;
+                    }
+
+                    btn_append += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" ;
+
+                }
+                btn_append +="<br/><br/>" ;
+
+            }
+
+            return btn_append ;
+        }
+
+        // 배열 속에 입력된 실제 발음할 텍스트 가져오기
+        function getTextTts(text_arr, check, pre, mid, next){
+            var text="" ;
+
+            if(check=="word") {
+                pre = parseInt(arr_vals[1]) ;
+                mid = parseInt(arr_vals[2]) ;
+                next = parseInt(arr_vals[3]) ;
+                text = text_arr[pre][mid][next] ;
+
+            } else if(check=="mid"){
+                pre = parseInt(arr_vals[1]) ;
+                mid = parseInt(arr_vals[2]) ;
+                next = parseInt(arr_vals[3]) ;
+                var text_tmp= text_arr[pre][mid][next-1] ;
+                text_tmp +=" " ;
+                text_tmp += text_arr[pre][mid][next] ;
+
+                text = text_tmp ;
+
+            } else if(check=="chunk"){
+                pre = parseInt(arr_vals[1]) ;
+                mid = parseInt(arr_vals[2]) ;
+                next = parseInt(arr_vals[3]) ;
+                var text_tmp="" ;
+                for (i=0 ; i < text_arr[pre][mid].length ; i++) {
+                    text_tmp += text_arr[pre][mid][i]+" " ;
+                }
+                text = text_tmp ;
+
+            }
+            return text ;
+        }
+
+        //브라우저로 TTS 발음할 객체 가져오기
+        function getSpeechTTSObject(){
+            var u1 = new SpeechSynthesisUtterance();
+            //SpeechSynthesisUtterance("Having explored various spiritual, philosophical, and religious avenues with unfulfilling or only temporary results");
+            //u1.text =
+            u1.lang = 'en-US';
+            //u1.voice = "Alex" ;
+            u1.pitch = 1;
+            u1.rate = 1;
+            //u1.voice = voices[10];
+            u1.voiceURI = 'native';
+            u1.volume = 2;
+            //speechSynthesis.speak(u1);  //speechSynthesis 는 자동으로 연결되어있음
+
+            return u1 ;
+
+        }
+
+        // https://developer.mozilla.org/ko/docs/Web/API/SpeechSynthesisUtterance
+        $(document).ready(function () {
+
+
+            var text_json = [
+                {
+                    "0":
+                        {
+                        "0": {
+                            "0": "Hi# Mr"
+                        }
+                    }
+
+                },
+                {
+                    "1": {
+                       "0": {
+                            "0":"I saw your notice",
+                            "1":"on the bulletin board",
+                            "2":"about selling",
+                            "3":"a brown leather sofa"
+
+                       }
+                    }
+
+                },
+                {
+                    "2": {
+                        "0": {
+                            "0":"From the picture"
+                        },
+                        "1":{
+                             "0":"it seem",
+                             "1":"it would match ",
+                             "2":"my current armchair and rug",
+                             "3":"perfectly"
+                        }
+                    }
+
+                },
+                {
+                    "3": {
+                        "0": {
+                            "0":"Is it still",
+                            "1":"for sale?"
+
+                        }
+                    }
+                },
+                {
+                    "4": {
+                        "0": {
+                            "0": "Yes",
+                            "1": "and I@ll be home",
+                            "2": "this morning after 6"
+
+                        }
+                    }
+
+                },
+                {
+                    "5":{
+                        "0":{
+                            "0":"Why don@t you",
+                            "1":"bring a friend",
+                            "2":"when you come?"
+                        }
+                    }
+
+                },
+                {
+                    "6":
+                    {
+                        "0": {
+                            "0": "That way"
+                        },
+                        "1": {
+                            "0": "if you want to ",
+                            "1": "purchase it"
+                        },
+                        "2": {
+                            "0": "you can take it",
+                            "1": "right now"
+                        }
+                    }
+
+                },
+                {
+                    "7":{
+                        "0": {
+                             "0":"All right"
+
+                        }
+                    }
+
+                },
+                {
+                    "8":{
+                        "0": {
+                            "0":"I@ll do that"
+
+                        }
+                    }
+
+                },
+                {
+                    "9":{
+                        "0": {
+                            "0":"How about",
+                            "1":"if you stop by",
+                            "2":"around7?"
+
+                        }
+                    }
+                },
+                {
+                    "10": {
+                        "0": {
+                            "0": "That@s fine"
+                        },
+                        "1": {
+                            "0": "I@m glad",
+                            "1": "you can come today"
+                        }
+
+                    }
+                },
+
+                {
+                    "11": {
+                        "0": {
+                            "0": "I@m moving",
+                            "1": "to a studio apartment",
+                            "2": "next week"
+                        },
+                        "1": {
+                            "0": "so I need to",
+                            "1": "get rid of my large items",
+                            "2": "quickly"
+
+                        }
+                    }
+
+                }
+
+
+            ]
+
+            var text = "Good morning, and thank you for / calling GT Communications. My name is Martin."+
+                "If you give me / your ten digit customer account number, I can assist you / your inquiry / more efficiently." +
+                "Hello. Actually, I'm a new customer. I would like to / get your broadband Internet Service / set up at my apartment / in Mondale."+
+                "Am I able to / make that require over the phone?" +
+                "Yes, you are. However, I'm sorry to say that / this department / only handles existing, so there's nothing I can do / to help you."+
+                "However, I'd be happy / to give you / the toll free phone number / for our new accounts department."+
+                "All right. Go ahead."
+
+            text_json = [] ;
+            var text_origin_arr = blankOutArr(text,".");
+            var text_split_arr = questioMarkSplitArr(text_origin_arr);
+
+            for(var i=0 ; i < text_split_arr.length ; i++){
+//            for(var i=0 ; i < 3 ; i++){
+
+                var first_str = "" ;  //console.log(text_split_arr[i]) ;
+
+                // first if :쉼표, 슬래시가 존재하지 않을 경우
+                if( (text_split_arr[i].indexOf(",") !=-1) ||  (text_split_arr[i].indexOf("/") != -1) ) {
+
+                    var second_str = "{"  ;
+
+                    var commar_arr = blankOutArr(text_split_arr[i], ",");
+                    for(var j=0 ; j < commar_arr.length ; j++){
+
+
+                        if(j !=0) { second_str += ","} ;
+
+                        // second if : 슬래시가 존재하는 경우
+                        if(commar_arr[j].indexOf("/") != -1) {
+
+                            var third_str = "{" ;
+                            var slash_arr = blankOutArr(commar_arr[j],"/");
+                            for(var k=0 ; k < slash_arr.length ; k++){
+                                if(k !=0) { third_str += ","} ;
+                                third_str += "\""+k+"\":" +"\""+slash_arr[k].trim().replace("'","@")+"\"" ;
+                            }
+
+                            third_str += "}" ;
+                            second_str += "\""+j+"\":"+ third_str  ;
+
+                        } else { //쉼표만 존재하는 경우
+
+                            var third_str = "{ \"0\":\""+ commar_arr[j].trim().replace("'","@") +"\"}" ;
+                            second_str += "\""+j+"\":"+ third_str  ;
+
+                        } //second if
+
+
+                    } //second for
+                    second_str += "}" ;
+                    //console.log(second_str) ;
+
+                    first_str = "{\""+i+"\":"+ second_str +"}";
+                    //console.log("--  --  --second --  -- --")
+                    //console.log(first_str);
+
+
+                } else {  //first if
+                    var third_str = "{ \"0\":\""+text_split_arr[i].trim().replace("'","@")+"\"}" ;
+                    var second_str = "{\"0\":"+ third_str + "}" ;
+                    first_str = "{\""+i+"\":"+ second_str +"}";
+                    //console.log("--  --  --first --  -- --")
+                    //console.log(first_str);
+
+
+                } //first if
+                //console.log("===last====");
+                //console.log(first_str);
+                text_json.push(JSON.parse(first_str)) ;
+
+            } //first for
+
+
+            //console.log(text_split_arr)
+            //console.log("------결과------")
+            //console.log(text_json)
+            //text_json = JSON.parse(text_arr_json) ;
+
+            $("#speak_type_btn").on('click', function (e) {
+                if ($("#speak_input").val()) {
+//                    var ttsObj = getSpeechTTSObject() ;
+//                    ttsObj.text = $("#speak_input").val() ;
+//                    speechSynthesis.speak(ttsObj);
+                    responsiveVoice.speak($("#speak_input").val()) ;
+                }
+            });
+
+
+            var text_arr = makeJsonIntoArray(text_json);
+            var btn_append = makeHTML(text_arr);
+            $('#speak_div').append(btn_append);
+
+
+            $(".speechBtn").on('click', function () {
+
+                arr_vals = $(this).attr("for").split("|");
+                //console.log(arr_vals);
+
+                check = arr_vals[0] ;  //word, mid, sentence
+                pre = parseInt(arr_vals[1]) ;
+                mid = parseInt(arr_vals[2]) ;
+                next = parseInt(arr_vals[3]) ;
+
+                var text = getTextTts(text_arr, check, pre, mid, next) ;
+
+                var ttsObj = getSpeechTTSObject() ;
+                ttsObj.text = text ;
+                speechSynthesis.speak(ttsObj);
+
+            });
+
+
+        });
+    </script>
+</body>
+</html>

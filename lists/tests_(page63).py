@@ -19,7 +19,7 @@ class HomePageTest(TestCase):
         # self.assertIn(b'<title>To-Do lists</title>', response.content.strip())
         # self.assertTrue(response.content.strip().endswith(b'</html>'))
         expected_html = render_to_string('lists/home.html')
-        # self.assertIn(response.content.decode(), expected_html) # {% csrf_token %} 값이 추가되어 서로 다르게 나옴
+        self.assertEqual(response.content.decode(), expected_html)
 
     def test_home_page_can_save_a_POST_request(self):
         request = HttpRequest()
@@ -29,6 +29,3 @@ class HomePageTest(TestCase):
         response = home_page(request)
 
         self.assertIn('신규 작업 아이템',response.content.decode())
-        expected_html = render_to_string('lists/home.html', {'new_item_text':'신규 작업 아이템'})
-        # self.assertEqual(response.content.decode(), expected_html) # {% csrf_token %} 이 추가되어 같지 Error 발생
-
