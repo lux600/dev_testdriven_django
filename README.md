@@ -56,6 +56,10 @@
 - git commit -m "커밋내용"
  
 ---
+- db 삭제 
+    - rm db.sqlite3
+    - python manage.py migrate --noinput
+---
 - http://www.nltk.org/install.html
     - pip install -U nltk
     - pip install -U numpy 
