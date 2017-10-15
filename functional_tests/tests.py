@@ -1,9 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 import unittest
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         driverLocation = './webdriver/chromedriver'
         self.browser = webdriver.Chrome(driverLocation)
@@ -16,7 +17,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
         # 해당 웹사이틀 확인하러 간다
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
         # 웹 페이지 타이틀과 헤더거 'To-Do'를 표시하고 있다
         self.assertIn('To-Do',self.browser.title)
@@ -43,7 +44,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # 추가 아이템을 입력할 수 있는 여분의 텍스트 상자가 존재한다
         # 다시 "공작깃털을 이용해서 그물 만들기"라고 입력한다 (에디스는 매우 체계적인 사람이다)
-        # self.fail('Finish the test!')
+        self.fail('Finish the test!')
 
         # 페이지는 다시 갱신되고, 두 개 아이템이 목록에 보인다
         # 에디스는 사이트가 입력한 목록을 저장하고 있는지 궁금하다
@@ -55,7 +56,3 @@ class NewVisitorTest(unittest.TestCase):
         # 만족하고 잠자리에 든다
 
 
-if __name__ == "__main__":
-    unittest.main(warnings='ignore')
-
-    # < tr > < td > 1: {{new_item_text}} < / td > < / tr >
