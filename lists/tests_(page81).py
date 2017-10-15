@@ -39,7 +39,7 @@ class HomePageTest(TestCase):
         request.POST['item_text'] = '첫 번째 아이템'
 
         response = home_page(request)
-
+        
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'],'/')
 
@@ -48,16 +48,6 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         home_page(request)
         self.assertEqual(Item.objects.count(), 0)
-
-    def test_home_page_displays_all_list_items(self):
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
-
-        request = HttpRequest()
-        response = home_page(request)
-
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
 
 class ItemModelTest(TestCase):
 

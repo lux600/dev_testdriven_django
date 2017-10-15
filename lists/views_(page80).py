@@ -12,5 +12,4 @@ def home_page(request):
         Item.objects.create(text=new_item_text)
         return redirect('/')
 
-    items = Item.objects.all()
-    return render(request, 'lists/home.html', {'items': items})
+    return render(request, 'lists/home.html')
