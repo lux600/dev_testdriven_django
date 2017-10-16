@@ -25,10 +25,10 @@ class HomePageTest(TestCase):
 
 class LiveViewTest(TestCase):
 
-    def test_uses_list_template(self):
+    def tst_uses_list_template(self):
         list_ = List.objects.create()
         response = self.client.get('/lists/%d/' % (list_.id,))
-        self.assertTemplateUsed(response, 'lists/list.html')
+        self.assertTemplateUsed(response, '/lists/list.html')
 
     def test_displays_only_items_for_that_list(self):
         correct_list = List.objects.create()
@@ -47,17 +47,11 @@ class LiveViewTest(TestCase):
         self.assertNotContains(response,'다른 목록 아이템 1')
         self.assertNotContains(response, '다른 목록 아이템 2')
 
-    def test_passes_correct_list_to_template(self):
-        other_list = List.objects.create()
-        correct_list = List.objects.create()
-        response = self.client.get('/lists/%d/' % (correct_list.id,))
-        self.assertEqual(response.context['list'], correct_list)
-
 class ListAndItemModelsTest(TestCase):
 
     # def test_uses_list_template(self):
     #     response = self.client.get('/lists/the-only-list-in-the-world/')
-    #     self.assertTemplateUsed(response, '/lists/list.html')
+    #     self.assertTemplateUsed(response, 'lists/list.html')
 
     def test_saving_and_retrieving_items(self):
         list_ = List()
@@ -100,6 +94,7 @@ class NewListTest(TestCase):
     def test_redirects_after_POST(self):
 
         response = self.client.post('/lists/new', {'item_text':'신규 작업 아이템'})
+
         new_list = List.objects.first()
         self.assertRedirects(response, '/lists/%d/' % (new_list.id,))
 

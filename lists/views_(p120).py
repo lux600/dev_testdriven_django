@@ -10,16 +10,11 @@ def home_page(request):
 
 def view_list(request, list_id):
     list_ = List.objects.get(id=list_id)
-    return render(request, 'lists/list.html', { 'list': list_ })
+    items = Item.objects.filter(list=list_)
+    return render(request, 'lists/list.html', {'items': items})
 
 def new_list(request):
     list_ = List.objects.create()
     text = request.POST['item_text']
     Item.objects.create(text=text, list= list_)
-    return redirect('/lists/%d/' % (list_.id))
-
-def add_item(request, list_id):
-    list_ = List.objects.get(id=list_id)
-    text = request.POST['item_text']
-    Item.objects.create(text=text, list=list_)
-    return redirect('/lists/%d/' % (list_.id,))
+    return redirect('/lists/the-only-list-in-the-world/')
