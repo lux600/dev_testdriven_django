@@ -22,6 +22,11 @@ class HomePageTest(TestCase):
         expected_html = render_to_string('lists/home.html')
         # self.assertIn(response.content.decode(), expected_html) # {% csrf_token %} 값이 추가되어 서로 다르게 나옴
 
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
+
 
 class LiveViewTest(TestCase):
 
@@ -73,7 +78,6 @@ class NewListTest(TestCase):
 
         response = self.client.post('/lists/new', {'item_text':'신규 작업 아이템'})
 
-        # self.assertEqual(response.status_code, 302)
-        # self.assertEqual(response['location'],'/lists/the-only-list-in-the-world/')
-        self.assertRedirects(response, '/lists/the-only-list-in-the-world/')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'],'/lists/the-only-list-in-the-world/')
 
