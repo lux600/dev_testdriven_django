@@ -25,6 +25,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
         # 해당 웹사이틀 확인하러 간다
+        # self.browser.get(self.live_server_url+"/lists/")
         self.browser.get(self.live_server_url)
         # self.browser.get('http://localhost:8000/lists/')
 
@@ -93,3 +94,16 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('우유 사기', page_text)
 
         # 둘 다 만족하고 잠자리에 든다
+
+    # def test_layout_and_styling(self):
+    #     # 에디스는 메인 페이지를 방문한다
+    #     self.browser.get(self.live_server_url)
+    #     self.browser.set_window_size(1024, 768)  # 크롬 브라우저 버전 때문에 에러가 난다
+    #
+    #     # 그녀는 입력 상자가 가운데 배치된 것을 본다
+    #     inputbox = self.browser.find_element_by_id('id_new_item')
+    #     self.assertAlmostEqual(
+    #         inputbox.location['x'] + inputbox.size['width']/2,
+    #         512,
+    #         delta= 10
+    #     )

@@ -33,6 +33,18 @@
 - /dev_tstdriven_django/
     - django-admin.py startproject superlists 하여 메인프로젝트 생성
     - superlists를 source 로 프로젝트 이름 변경 
+    
+---
+### Django settings.py
+- 템플릿 
+    - TEMPLATES = [
+        - 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+    - 디렉토리 생성 
+        - templates
+- static 
+    - STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
+    - 디렉토리 생성 
+        - static 
 ---     
 
 ### git (page8)
@@ -45,11 +57,13 @@
 - git push -u origin master
 
 <br/>
+
 - git log --oneline  (한줄씩 보기)
 - git rm -r --cached superlists/__pycache__
 - echo "__pycache__" >> .gitignore
 
 <br/>
+
 - git status
 - git add .
 - git diff --staged # 커밋 수정내역 확인 
