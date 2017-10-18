@@ -26,6 +26,7 @@ type='button' value='🔊 Play' />
 <br/>
 
 <hr/>
+text 56 >  25:46
 <div id="speak_div">
 
 </div>
@@ -387,13 +388,25 @@ type='button' value='🔊 Play' />
 
             ]
 
-            var text = "Good morning, and thank you for / calling GT Communications. My name is Martin."+
-                "If you give me / your ten digit customer account number, I can assist you / your inquiry / more efficiently." +
-                "Hello. Actually, I'm a new customer. I would like to / get your broadband Internet Service / set up at my apartment / in Mondale."+
-                "Am I able to / make that require over the phone?" +
-                "Yes, you are. However, I'm sorry to say that / this department / only handles existing, so there's nothing I can do / to help you."+
-                "However, I'd be happy / to give you / the toll free phone number / for our new accounts department."+
-                "All right. Go ahead."
+//            var text =
+//                "Good afternoon. My name is Olivia Erikson, and I'm the event planner / for the Textiles Trade Show."+
+//                            "You reserved a standard booth / for this year's event, but you haven't remitted / your payment yet."+
+//                            "I wanted to make sure / you'll be attending."+
+//                            "Yes, we will. I'm sorry / we haven't made the payment yet."+
+//                            "We've had some urgent matters / come up." +
+//                            "Could you remind me / how much it costs / to rent the booth?"+
+//                            "Yes, it's twelve hundred dollars / for the entire week. "+
+//                            "You can pay / by credit card / over the phone / if you'd like."+
+//                            "All right. But my supervisor has to / authorize the charge first."+
+//                            "Please hold / for a moment."
+//text56
+			var text = "Hi, Tammy. I've just been informed / by the operations director / that we need to / move all of the diagnositic equipment / "+
+				"in laboratory 1 / to the storage area / because the room is scheduled / to be repainted."+
+				"Do you have some time / to give me a hand / after lunch?"+
+				"I'm sorry, but I can't. Unfortunately, I'm in charge of / bring the inventory list / up to date, "+
+				"and I'll be tied up / with that / all afternoon. I have time tomorrow, though."+
+				"Well, the painters are arriving / at 10 AM, so it would be better / to have everything completed / by the end of the work day."+
+				"I'll see / if someone else / in my apartment / is free / to help me."
 
             text_json = [] ;
             var text_origin_arr = blankOutArr(text,".");
@@ -495,7 +508,9 @@ type='button' value='🔊 Play' />
 
                 var ttsObj = getSpeechTTSObject() ;
                 ttsObj.text = text ;
-                speechSynthesis.speak(ttsObj);
+                //speechSynthesis.speak(ttsObj);
+                responsiveVoice.speak(text) ;
+
 
             });
 

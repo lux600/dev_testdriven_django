@@ -87,3 +87,12 @@ http://ourcstory.tistory.com/97
 
 ## nltk
 - https://stackoverflow.com/questions/26570944/resource-utokenizers-punkt-english-pickle-not-found/26578793
+
+---
+
+## server
+- ssh root@222.239.249.69
+- /home/elsepeth
+- /home/remann
+- /home/exampleapp 
+- su - remann 
