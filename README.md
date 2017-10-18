@@ -90,9 +90,54 @@ http://ourcstory.tistory.com/97
 
 ---
 
-## server
+## server 222.239.249.69
 - ssh root@222.239.249.69
+- sj\*\*84\*\*
 - /home/elsepeth
 - /home/remann
 - /home/exampleapp 
 - su - remann 
+
+---
+- 새로운 사용자 생성하기 
+    - root@server:$ useradd -m -s /bin/bash tdd_django 
+        - tdd_django 사용자 추가 
+        - -m 은 /home 폴더안에 tdd_django 를 생성 
+        - -s 는 tdd_django 가 bash를 사용하도록 설정 
+    - root@server:$ usermod -a -G sudo tdd_django
+        - tdd_django를 sudoers 그룹에 추가 
+    - root@server:$ passwd tdd_django # 패스워드 설정 
+        - sj\*\*84\*\*
+    - root@server:$ su - tdd_django # tdd_django로 사용자 변경 
+    - tdd_django@server:$ 
+    
+<br/>
+
+- 도메인 연동(카페24)
+    - 도메인부가서비스 >  DNS 관리 > 
+        - 해당도메인 선택 singsns.com > DNS(네임서버) 관리 >
+            - 호스트IP(A 레코드) 관리 > 222.239.249.69
+- nginx 설치 
+    - tdd_django@server:$ sudo apt-get install nginx 
+    - tdd_django@server:$ sudo service nginx start 
+
+<br/>
+
+- 폴더 구조 
+    - /home/tdd_django
+        - sites
+            - live.tdd_django.com
+                - database
+                    - db.sqlite3
+                - source
+                    - manage.py
+                    - superlists
+                - static 
+                    - base.css
+                - virtualenv
+                    - lib
+            - staging.tdd_django.com
+                - database
+                - source
+                - static
+                - virtualenv 
