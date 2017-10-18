@@ -141,3 +141,75 @@ http://ourcstory.tistory.com/97
                 - source
                 - static
                 - virtualenv 
+- export 
+    - tdd_django@server:$ export SITENAME=staging.tdd_django.com
+    - tdd_django@server:$ mkdir -p ~/sites/$SITENAME/database
+    - tdd_django@server:$ mkdir -p ~/sites/$SITENAME/static
+    - tdd_django@server:$ mkdir -p ~/sites/$SITENAME/virtualenv
+    - tdd_django@server:$
+    - tdd_django@server:$ git clone https://github.com/lux600/dev_testdriven_django ~/sites/$SITENAME/source
+                                         
+- virtualenv 생성 
+    - $ pip3 install virtualenv 
+    - tdd_django@server:~/sites/staging.tdd_django.com/virtualenv$ virtualenv --python=python3 . 
+    - tdd_django@server:~/sites/staging.tdd_django.com/virtualenv$ cd bin
+    - tdd_django@server:~/sites/staging.tdd_django.com/virtualenv/bin$ ls
+        - 파이썬 버전 확인 가능 
+        - which python3 (파이썬 경로)
+            - /usr/bin/python3
+    - tdd_django@server:~/sites/staging.tdd_django.com/source $ source ../virtualenv/bin/activate
+        - (virtualenv) tdd_django@server:~/sites/staging.tdd_django.com/source$
+        - which python
+            - /home/tdd_django/sites/staging.tdd_django.com/virtualenv/bin/python
+    - pip freeze > requirements.txt
+        - git add requirements.txt
+        - git commit - m "requirements.txt 추가 "
+        - git push -u origin master
+    - server 
+        - pull 
+        - source ../virtualenv/activate
+        - pip install -r requirements.txt 
+        
+### Nginx 설정 
+~~~
+server {
+        listen 80;
+        server_name www.singsns.com;
+
+        location / {
+                proxy_pass http://localhost:8000;
+        }
+}  
+~~~      
+
+~~~
+(virtualenv) tdd_django@ommath:/etc/nginx/sites-available$ echo $SITENAME
+    - staging.tdd_django.com
+tdd_django@ommath:/etc/nginx/sites-available$ sudo ln -s ../sites-available/$SITENAME /etc/nginx/sites-enabled/$SITENAME
+tdd_django@ommath:/etc/nginx/sites-available$ ls -l /etc/nginx/sites-enabled/
+    - lrwxrwxrwx 1 root root 34 Sep 22  2016 default -> /etc/nginx/sites-available/default
+    - lrwxrwxrwx 1 root root 41 Oct 18 18:04 staging.tdd_django.com -> ../sites-available/staging.tdd_django.com
+    - lrwxrwxrwx 1 root root 41 Sep 24  2016 www.staging.remann.com -> ../sites-available/www.staging.remann.com
+~~~
+
+- tdd_django@ommath:/etc/nginx/sites-available$ sudo rm www.staging.remann.com      
+~~~
+server {
+        listen 80;
+        server_name www.staging.remann.com;
+
+        location / {
+                proxy_pass http://localhost:8000;
+        }
+}
+~~~   
+- nginx 
+    - sudo nginx start
+    - sudo nginx stop 
+- su - remann : remann7297
+
+- 502 Bad gateway 나올 때, python manage.py runserver 실행여부 확인 
+ 
+            
+               
+                                         
