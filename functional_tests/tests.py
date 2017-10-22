@@ -17,11 +17,13 @@ class NewVisitorTest(StaticLiveServerTestCase):
                 cls.server_url = 'http://'+arg.split('=')[1]
                 return
         super().setUpClass()
-        cls.server_url = cls.live_server_url
+        # cls.server_url = cls.live_server_url
+        cls.server_url = cls.server_url
 
     @classmethod
     def tearDownClass(cls):
-        if cls.server_url == cls.live_server_url:
+        # if cls.server_url == cls.live_server_url:
+        if cls.server_url :
             super().tearDownClass()
 
     def setUp(self):
@@ -42,7 +44,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
         # 해당 웹사이틀 확인하러 간다
         # self.browser.get(self.live_server_url+"/lists/")
-        # self.browser.get(self.live_server_url)
+        # self.browser.get(self.live_server_url) #-------------
         self.browser.get(self.server_url)
 
 
@@ -88,7 +90,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # 프란시스가 홈페이지에 접속한다
         # 에디스의 리스트는 보이지 않는다
-        # self.browser.get(self.live_server_url)
+        # self.browser.get(self.live_server_url) #-----------------------
         self.browser.get(self.server_url)
         # self.browser.get(self.live_server_url + '/lists/')
         page_text = self.browser.find_element_by_tag_name('body').text

@@ -30,10 +30,30 @@
     - source 안에 webdriver 생성 후 chromedriver 복사 
     - 샘플코드 : /source/install_test/functional_test.py
 ---
-- /dev_tstdriven_django/
+- /dev_testdriven_django/
     - django-admin.py startproject superlists 하여 메인프로젝트 생성
     - superlists를 source 로 프로젝트 이름 변경 
-    
+
+---
+- wsgi 가 무엇인가?
+    - http://brownbears.tistory.com/350
+    - http://khanrc.tistory.com/entry/WSGI%EB%A1%9C-%EB%B3%B4%EB%8A%94-%EC%9B%B9-%EC%84%9C%EB%B2%84%EC%9D%98-%EA%B0%9C%EB%85%90
+    - http://paphopu.tistory.com/37
+    - python manage.py runserver 대신 아래를 실시
+        - pip install gunicorn==18
+        - (virtualenv) tdd_django@ommath:~/sites/staging.tdd_django.com/source$ 
+            - ../virtualenv/bin/gunicorn superlists.wsgi:applicationㄴ
+    - 서버 tdd (로컬)
+        - python manage.py test functional_tests --liveserver=singsns.com
+- 유닉스의 도메인 소켓 
+    - staging서버와 실서버를 같이 운용하기 위해서 
+    - https://www.joinc.co.kr/w/Site/system_programing/IPC/Unix_Domain_Socket
+    - http://forum.falinux.com/zbxe/index.php?document_srl=406064&mid=network_programming
+    - 재실행 
+        - (virtualenv) tdd_django@ommath:~/sites/staging.tdd_django.com/source$
+            - sudo service nginx reload
+            - ../virtualenv/bin/gunicorn --bind unix:/tmp/staging.tdd_django.com.socket superlists.wsgi:application   
+                             
 ---
 ### Django settings.py
 - 템플릿 
@@ -208,8 +228,124 @@ server {
     - sudo nginx stop 
 - su - remann : remann7297
 
-- 502 Bad gateway 나올 때, python manage.py runserver 실행여부 확인 
+- 502 Bad gateway 나올 때, python manage.py runserver 실행여부 확인
+- ubuntu 에서 selenium 
+    - https://christopher.su/2015/selenium-chromedriver-ubuntu/
+~~~
+sudo apt-get install unzip
+
+wget -N http://chromedriver.storage.googleapis.com/2.26/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+chmod +x chromedriver
+
+sudo mv -f chromedriver /usr/local/share/chromedriver
+sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+~~~     
+
+- sudo apt-get update
+
+- sudo vi /etc/nginx/sites-available/staging.tdd_django.com 
+~~~
+server {
+        listen 80;
+        server_name staging.tdd_django.com;
+
+        location /static {
+                alias /home/tdd_django/sites/staging.tdd_django.com/source/static;
+        }
+        location / {
+                proxy_set_header Host $host;
+                proxy_pass http://unix:/tmp/staging.tdd_django.com.socket;
+                #proxy_pass http://localhost:8000;
+        }
+}
+~~~
+
+### Upstart 를 이용한 부팅 시 Gunicorn 가동 
+- 서버 부팅시 Gunicorn를 자동으로 가동시킴 
+- (virtualenv) tdd_django@ommath:~/sites/staging.tdd_django.com/source$ 
+    - sudo vi /etc/init/gunicorn-superlists-staging.tdd_django.com.conf
+~~~
+description "Gunicorn server for superlists-staging.tdd_django.com"
+
+start on net-device-up
+stop on shutdown
+
+respawn
+
+setuid tdd_django
+chdir /home/tdd_django/sites/staging.tdd_django.com/source
+
+exec ../virutalenv/bin/gunicorn --bind unix:/tmp/superlists-staging.tdd_django.com.socket superlists.wsgi:application
+~~~    
+- sudo apt-get install upstart-sysv
+- http://blog.sapzil.org/2014/08/12/upstart/
  
+## 설치과정 
+- https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-16-04
+
+ 
+## 서버 재기동 
+- sudo service nginx reload
+- ../virtualenv/bin/gunicorn superlists.wsgi:application
+    - python manage.py runserver 보다 위의 것으로 wsgi 가동
+
+<br/>
+       
+- tdd_django@ommath:/etc/nginx/sites-available$ sudo vi staging.tdd_django.com        
+~~~
+# page176
+server {
+        listen 80;
+        server_name staging.tdd_django.com;
+
+	location /static {
+		alias /home/tdd_django/sites/staging.tdd_django.com/source/static;
+	}
+        location / {
+               	proxy_set_header Host $host;
+		proxy_pass http://unix:/tmp/staging.tdd_django.com.socket;
+		#proxy_pass http://localhost:8000;
+        }
+}
+~~~
+
+- 서버 재가동 
+    - sudo service nginx reload 
+    - ../virtualenv/bin/gunicorn --bind unix:/tmp/staging.tdd_django.com.socket superlists.wsgi:application 
+
+## 서버 shutdown 해도 다시 재부팅
+sudo vi /etc/systemd/system/gunicorn.service
+
+~~~
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=sammy
+Group=www-data
+WorkingDirectory=/home/tdd_django/sites/staging.tdd_django.com/source/
+ExecStart=/home/tdd_django/sites/staging.tdd_django.com/source/virtualenv/bin/gunicorn --access-logfile - 
+--workers 3 --bind unix:/tmp/staging.tdd_django.com.sock superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+~~~       
             
                
+~~~
+sudo tail -F /var/log/nginx/error.log
+~~~               
+
                                          
+~~~
+# 재시작 
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart gunicorn
+                                         
+$ sudo systemctl restart nginx
+# $ sudo nginx -t && sudo systemctl restart nginx
+~~~                                         
