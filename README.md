@@ -68,7 +68,7 @@
 ---     
 
 ### git (page8)
- - [ Git 간편 안내 ](https://rogerdudler.github.io/git-guide/index.ko.html)
+- [ Git 간편 안내 ](https://rogerdudler.github.io/git-guide/index.ko.html)
 - echo "# dev_testdriven_django" >> README.md
 - git init
 - git add README.md

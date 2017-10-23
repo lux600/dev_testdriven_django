@@ -1,0 +1,73 @@
+            var text =
+                "Excuse me. I thought / Redford Station was supposed to / be only a five minute stop. But we've been sitting / at station / for nearly twenty minutes stop." +
+                    " Coud you tell me / why the train has been delayed? "+
+                    " I'm afraid that / the train's engine / suddenly started overheating. Our technicians are making / the necessary repairs / now. "+
+                    " Well, I'm having dinner / with my cousin and aunt / in Boston this evening. They're going to pick me up / at the station, "+
+                    "so i'm wondering / what our new arrival time / will be. "+
+                    "I have to verify it / with the technicians, but I'll be announcing / our updated schedule / over the loudspeaker / in just a few minutes." ;
+
+var text50 = "Good morning, and thank you for / calling GT Communications. My name is Martin."+
+	"If you give me / your ten digit customer account number, I can assist you / with your inquiry / more efficiently." +
+	"Hello. Actually, I'm a new customer. I would like to / get your broadband Internet Service set up / at my apartment in Mondale."+
+	"Am I able to make that request / over the phone?" +
+	"Yes, you are. However, I'm sorry to say that / this department / only handles existing customers, so there's nothing I can do / to help you."+
+	"However, I'd be happy to / give you the toll-free phone number / for our new accounts department."+
+	"All right. Go ahead."
+	
+			var text53 = "Good afternoon. My name is Olivia Erikson, and I'm the event planner / for the Textiles Trade Show."+
+				"You reserved a standard booth / for this year's event, but you haven't remitted / your payment yet."+
+				"I wanted to make sure / you'll be attending."+
+				"Yes, we will. I'm sorry / we haven't made the payment yet."+
+				"We've had some urgent matters / come up." +
+				"Could you remind me / how much it costs / to rent the booth?"+
+				"Yes, it's twelve hundred dollars / for the entire week. "+
+				"You can pay / by credit card / over the phone / if you'd like."+
+				"All right. But my supervisor has to / authorize the charge first."+
+				"Please hold / for a moment."
+				
+			var text56 = "Hi, Tammy. I've just been informed / by the operations director / that we need to / move all of the diagnositic equipment / "+
+				"in laboratory 1 / to the storage area / because the room is scheduled / to be repainted."+
+				"Do you have some time / to give me a hand / after lunch?"+
+				"I'm sorry, but I can't. Unfortunately, I'm in charge of / bring the inventory list / up to date, "+
+				"and I'll be tied up / with that / all afternoon. I have time tomorrow, though."+
+				"Well, the painters are arriving / at 10 AM, so it would be better / to have everything completed / by the end of the work day."+
+				"I'll see / if someone else / in my apartment / is free / to help me."	
+				
+			var text59 = "Hi. This is Robin Thomas / from Highland Property Management Firm. "+
+				"I just heard your message / about an issue / with your apartment."+
+				"Yes. Thank you for your prompt reply. When I tried to wash the dishes / this afternoon, "+
+				"no water came out / of the faucet. The sink and shower / in my bathroom / have the same problem."+
+				"Please accept my apolgies, sir. Some plumbing work is being done/ in another apartment,"+
+				"so the plumbers had to turn off the water / to the entire building. "+
+				"You should have received notice / of work."+
+				"Oh, I see. Well, could you please find out exactly / when they'll be turning the water back on / and give me a call / to let me know?"
+						
+			var text62 = "Hi, Reggie. It's Melissa. I'm really sorry that / I didn't reply to the e-mail / you sent me."+
+				"I was in the Beijing / on business. You mentioned that / you had a stumbling block / with the Larson Beverages account."+
+				"That's right. Some representatives from Larson / will visit our office / on April 5."+
+				"We need to / have their TV commercial / completed by then / so they can see the final product."+
+				"Andrew needs / the rest of the footage / from last month's shoot"+
+				"Of course. I have it / unloaded onto my computer. He and I can work on it / as early as this afternoon."+
+				"All right. But because the deadline is tight, I don't think / the two of you / will be enough."+
+				"You should gather a few more people / and work as a team / to get it done on time."
+				
+			var text65 = "Kevin, we have a heavy workload / at the station this summer, "+
+				"and I was thinkinkg / it would be advantageous / to hire a summer intern. Do you think / that would be possible?"+
+				"I don't see why not. Since we have so many contests / and special events, "+
+				"we could really use the extra assistance. Do you think / we should placa an ad / in the local newspaper?"+
+				"We'd probably have better luck / posting a job notice / at the local community college / "+
+				"since some of the students there are studying / to work in the radio industry."+
+				"Great idea. In that case, why don't you write down the tasks that / you think / "+
+				"intern should be responsible for? Then, I can draw up a job description."
+
+			var text68 = "Hi, Mr Reeves. I need approval / on this request for eight days' holiday / "+
+			    "at the end of November. I've already designed the holiday window display / for that month, "+
+			    "so there should't be much to do."+
+			    "I'm glad to hear that / you have the main displays planned, but we'll have to change the in-store
+			    displays / reqularly. Most of the employees / in your department / haven't worked here / very long."+
+			    "so I'm worried that / they are incapable of doing it / by themselves."+
+			    "I understand your concern. Before I leave, I'd be willing to / lead a training session on / how to "+
+			    "create visually appealing displays. That way, the staff memebers will be prepared to / work
+			    independently."+
+			    "All right. if you can do that, then I'd be more than happy / to approve your request."
+
