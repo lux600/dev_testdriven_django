@@ -12,7 +12,7 @@
 
 ## Nginx 가상 호스트 설정 
 - nginx.template.conf 참고 
-    - /etc/nginx/sites-available/staging.tdd_django.com
+    - /etc/nginx/sites-available/staging.singsns.com
     - SITENAME 부분을 staging.my-domain.com 으로 수정 
 
 ## systemd Job
