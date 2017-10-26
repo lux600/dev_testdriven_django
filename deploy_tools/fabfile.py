@@ -35,7 +35,8 @@ def _update_settings(source_folder, site_name):
     sed(settings_path,"DEBUG = True", "DEBUG = False")
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
-        'ALLOWD_HOSTS = ["%s"]' % (site_name,)
+        # 'ALLOWED_HOSTS = ["%s"]' % (site_name,)
+        'ALLOWED_HOSTS = ["*"]'
     )
     secret_key_file = source_folder + '/superlists/secret_key.py'
 
