@@ -4,27 +4,28 @@ from selenium.webdriver.common.keys import Keys
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import unittest
 import sys
+from unittest import skip
 
 # import time
 # time.sleep(3)
 
 # class NewVisitorTest(LiveServerTestCase):
 class NewVisitorTest(StaticLiveServerTestCase):
-    @classmethod
-    def setUpClass(cls):
-        for arg in sys.argv:
-            if 'liveserve' in arg:
-                cls.server_url = 'http://'+arg.split('=')[1]
-                return
-        super().setUpClass()
-        # cls.server_url = cls.live_server_url
-        cls.server_url = cls.server_url
-
-    @classmethod
-    def tearDownClass(cls):
-        # if cls.server_url == cls.live_server_url:
-        if cls.server_url :
-            super().tearDownClass()
+    # @classmethod
+    # def setUpClass(cls):
+    #     for arg in sys.argv:
+    #         if 'liveserve' in arg:
+    #             cls.server_url = 'http://'+arg.split('=')[1]
+    #             return
+    #     super().setUpClass()
+    #     # cls.server_url = cls.live_server_url
+    #     cls.server_url = cls.server_url
+    #
+    # @classmethod
+    # def tearDownClass(cls):
+    #     # if cls.server_url == cls.live_server_url:
+    #     if cls.server_url :
+    #         super().tearDownClass()
 
     def setUp(self):
         self.driverLocation = './webdriver/chromedriver'
@@ -44,8 +45,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
         # 해당 웹사이틀 확인하러 간다
         # self.browser.get(self.live_server_url+"/lists/")
-        # self.browser.get(self.live_server_url) #-------------
-        self.browser.get(self.server_url)
+        self.browser.get(self.live_server_url) #----local---------
+        # self.browser.get(self.server_url) #------server
 
 
         # 웹 페이지 타이틀과 헤더거 'To-Do'를 표시하고 있다
@@ -90,8 +91,8 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         # 프란시스가 홈페이지에 접속한다
         # 에디스의 리스트는 보이지 않는다
-        # self.browser.get(self.live_server_url) #-----------------------
-        self.browser.get(self.server_url)
+        self.browser.get(self.live_server_url) #-----local------------------
+        # self.browser.get(self.server_url)  #-----server------------------
         # self.browser.get(self.live_server_url + '/lists/')
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('공작깃털 사기', page_text)
@@ -128,3 +129,20 @@ class NewVisitorTest(StaticLiveServerTestCase):
     #         512,
     #         delta= 10
     #     )
+
+    @skip
+    def test_cannot_add_empty_list_items(self):
+        # 에디스는 메인 페이지에 접속해서 빈 아이템을 실수로 등록하려고 한다
+        # 입력 상자가 비어 있는 상태에서 엔터키를 누른다
+
+        # 페이지가 새로고침되고, 빈 아이템을 등록할 수 없다는
+        # 에러 메시지가 표시된다
+
+        # 다른 아이템을 입력하고 이번에는 정상 처리된다
+
+        # 그녀는 고의적으로 다시 빈 아이템을 등록한다
+
+        # 리스트 페이지에 다시 에러 메시지가 표시된다
+
+        # 아이템을 입력하면 정상 동작한다
+        self.fail('write me!')
